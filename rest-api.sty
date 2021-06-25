@@ -1,0 +1,287 @@
+%%
+%% This is file `rest-api.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% rest-api.dtx  (with options: `package')
+%% 
+%% This is a generated file.
+%% 
+%% Copyright (C) 2020 by Dennis Klein <dennis94.kl@gmail.com>
+%% 
+%% This file may be distributed and/or modified under the conditions of
+%% the LaTeX Project Public License, either version 1.3c of this license
+%% or (at your option) any later version. The latest version of this
+%% license is in:
+%% 
+%% http://www.latex-project.org/lppl.txt
+%% 
+%% and version 1.3c or later is part of all distributions of LaTeX
+%% version 2008/05/04 or later.
+%% 
+\NeedsTeXFormat{LaTeX2e}[1999/12/01]
+\ProvidesPackage{rest-api}
+    [2020/03/22 v1.2 rest-api package]
+
+
+
+
+
+
+
+%% This program can be redistributed and/or modified under the terms
+%% of the LaTeX Project Public License Distributed from CTAN archives
+%% in directory macros/latex/base/lppl.txt.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{restapi}[2020/02/18 REST API package]
+\RequirePackage[T1]{fontenc}
+\RequirePackage{tabularx,colortbl}
+\RequirePackage{transparent}
+\RequirePackage{xcolor}
+\RequirePackage{color}
+\RequirePackage{xifthen, xstring}
+\RequirePackage{tikz}
+\RequirePackage[framemethod=tikz]{mdframed}
+\RequirePackage{array}
+\RequirePackage{verbatim}
+\RequirePackage{listings}
+\definecolor{getBlue}{HTML}{1391FF}
+
+\lstdefinelanguage{rest-api}{
+basicstyle=\small\ttfamily\color{black},
+numberstyle=\small\color{black},
+keywordstyle=\color{black},
+commentstyle=\color{black},
+stringstyle=\color{black},
+frame=L,
+framesep=8pt,
+framerule=2pt,
+xleftmargin=50pt,
+xrightmargin=0pt,
+rulesep=0pt,
+backgroundcolor=\color{white},
+numbersep=8pt,
+tabsize=4,
+showstringspaces=false,
+breaklines=true
+}
+\mdfdefinestyle{mystyle}{
+linecolor=white,
+% linecolor=\methodBorderColor,
+% backgroundcolor=\methodLightColor,
+skipabove=0pt,
+linewidth=1.5pt,
+skipbelow=0pt,
+innertopmargin=0pt,
+innerbottommargin=-3pt,
+innerrightmargin=0pt,
+innerleftmargin=0pt,
+leftmargin=0pt,
+rightmargin=0pt,
+nobreak=true
+}
+\newcommand{\routeBreakValue}{true}
+\newcommand{\noBreakRoute}
+{
+\renewcommand{\routeBreakValue}{true}
+}
+\newcommand{\breakRoute}
+{
+\renewcommand{\routeBreakValue}{false}
+}
+{
+\lstset{language=rest-api,rulecolor=\color{gray!20}}
+}
+\newenvironment{apiRoute}[3]
+{
+\newcommand{\method}{{#1}}
+\newcommand{\urlPath}{\texttt{#2}}
+\newcommand{\routeDescription}{#3}
+\newcommand{\printDescription}
+{
+& \textit{\routeDescription} \\
+}
+\begingroup
+\setlength{\parindent}{0em}
+\begin{definition}[API endpoint \method\ \urlPath]
+
+\end{definition}
+
+\begin{mdframed}[style=mystyle]
+\begin{tabularx}{\textwidth}{p{2cm} X}
+\rowcolor{white}
+\cellcolor{gray!70}
+\centering
+\textcolor{white}{\textbf{\textsc{\method}}}
+& \textbf{\urlPath} \\
+
+\printDescription
+
+\rowcolor{white} & \\
+\end{tabularx}
+}
+{
+\end{mdframed}
+\endgroup
+}
+
+
+\newenvironment{routeRequest}[1]
+{
+\arrayrulecolor{gray!50}
+
+\begin{tabularx}{\textwidth}{X l}
+\rowcolor{white}
+\textbf{Body} & #1 \\ \hline
+\end{tabularx}
+\vspace{1ex}
+}
+{
+\bigskip
+}
+\lstnewenvironment{routeRequestBody}
+{
+% \methodJson
+}
+{}
+
+%%%%%%%%%%%%%%%%%%%%%%
+\newenvironment{routeParameter}
+{
+\newcommand{\routeParamItem}[2]
+{
+\rowcolor{white} {\textbf{\texttt{##1}}} & ##2 \\
+}
+\newcommand{\noRouteParamter}[1]
+{
+\small{\textit{##1}}
+}
+
+\arrayrulecolor{gray!50}
+
+\begin{tabularx}{\textwidth}{X}
+\rowcolor{white}
+\textbf{Route Parameters} \\ \hline
+\end{tabularx}
+
+\tabularx{\textwidth}{l X}
+}
+{
+\endtabularx
+\medskip
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newenvironment{queryParameter}
+{
+\newcommand{\queryParamItem}[2]
+{
+\rowcolor{white} {\textbf{\texttt{##1}}} & ##2 \\
+}
+\newcommand{\noQueryParamter}[1]
+{
+\small{\textit{##1}}
+}
+
+\arrayrulecolor{gray!50}
+
+\begin{tabularx}{\textwidth}{X}
+\rowcolor{white}
+\textbf{Query Parameters} \\ \hline
+\end{tabularx}
+
+\tabularx{\textwidth}{l X}
+}
+{
+\endtabularx
+\medskip
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newenvironment{headerParameter}
+{
+\newcommand{\headerParamItem}[2]
+{
+\rowcolor{white} {\textbf{\texttt{##1}}} & ##2 \\
+}
+\newcommand{\noHeaderParamter}[1]
+{
+\small{\textit{##1}}
+}
+
+\arrayrulecolor{gray!50}
+
+\begin{tabularx}{\textwidth}{X}
+\rowcolor{white}
+\textbf{Header Parameters} \\ \hline
+\end{tabularx}
+
+\tabularx{\textwidth}{l X}
+}
+{
+\endtabularx
+\medskip
+}
+%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newenvironment{requestBody}
+{
+\arrayrulecolor{gray!50}
+
+\begin{tabularx}{\textwidth}{X}
+\rowcolor{white}
+\textbf{Request Body} \\ \hline
+\end{tabularx}
+
+\tabularx{\textwidth}{l X}
+}
+{
+\endtabularx
+\medskip
+}
+%%%%%%%%%%%%%%%%%%%%
+\newenvironment{routeResponse}[1]
+{
+\newcommand{\noRouteResponse}[1]
+{
+\begin{tabulfarx}{\textwidth}{X}
+\rowcolor{white}
+\small{\textit{##1}} \\
+\end{tabularx}
+}
+
+\arrayrulecolor{gray!50}
+\begin{tabularx}{\textwidth}{X l}
+\textbf{Response} & #1 \\ \hline
+\end{tabularx}
+\newcommand{\responseItem}[3]{
+\textbf{##1} & ##2 & ##3\\
+}
+
+\tabularx{\textwidth}{l l X}
+}
+{
+\endtabularx
+\medskip
+}
+
+\newenvironment{routeResponseItem}[2]
+{
+% \begin{tabularx}{\textwidth}{l X}
+\textbf{#1} & #2 \\
+% \end{tabularx}
+}
+{
+\medskip
+}
+\lstnewenvironment{routeResponseItemBody}
+{
+\vspace{-1.4em}
+% \methodJson
+}
+{}
+\newcommand{\param}[1]{\{#1\}}
+
+\endinput
+%%
+%% End of file `rest-api.sty'.
